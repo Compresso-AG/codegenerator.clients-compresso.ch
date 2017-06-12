@@ -1,13 +1,19 @@
 <?php
+ini_set('max_execution_time', 0);
 if(@isset($_POST['start'])):
 	require 'functions.php';
 	$myfile = fopen("dload/codes.txt", "w") or die("Unable to open txt file!");
 	$csvfile = fopen('dload/codes.csv', 'a') or die("Unable to open csv file!");
+	$keys = array();
 	for($i=0; $i < $_POST['forcodes']; $i++){
-		#echo generateRandomString($_POST['anzzeichen'],$_POST['zeichen'])."<br />";
 		$randomstring = generateRandomString($_POST['anzzeichen'],$_POST['zeichen']);
-		fwrite($myfile, $randomstring."\n");
-		fputcsv($csvfile, array($randomstring));
+		if(!in_array($randomstring, $keys)){
+			array_push($keys, $randomstring);
+			fwrite($myfile, $randomstring."\n");
+			fputcsv($csvfile, array($randomstring));
+		}else{
+			$i--;
+		}
 	}
 	fclose($myfile);
 	fclose($csvfile);
@@ -15,7 +21,6 @@ if(@isset($_POST['start'])):
 	echo '<p><a href="/dload/codes.txt">Textdatei herunterladen</a></p>';
 	echo '<p><a href="/dload/codes.csv">CSV-Datei herunterladen</a></p>';
 	echo '<p><a href="/index.php">Codegenerator neustarten</a></p>';
-	#echo generateRandomString($_POST['anzzeichen'],$_POST['zeichen']);
 else:
 	if(file_exists('dload/codex.txt')){
 		unlink('dload/codes.txt');
@@ -39,6 +44,7 @@ else:
 				<option value="abcdefghijklmnopqrstuvwxyz">a-z</option>
 				<option value="0123456789abcdefghijklmnopqrstuvwxyz">a-z 0-9</option>
 				<option value="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ">A-Z a-z 0-9</option>
+				<option value="23456789CFHJKLNPRTVX">Grossbuchstaben und Zahlen (ohne Verwechslungsgefahr)</option>
 			</select>
 		</p>
 		<p>Anzahl Codes:</p>

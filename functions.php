@@ -1,6 +1,5 @@
 <?php
 function generateRandomString($length = 10, $characters) {
-    #$characters = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
     $charactersLength = strlen($characters);
     $randomString = '';
     for ($i = 0; $i < $length; $i++) {
