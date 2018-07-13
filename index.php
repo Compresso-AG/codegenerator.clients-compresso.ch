@@ -4,7 +4,11 @@ if(@isset($_POST['start'])):
 	require 'functions.php';
 	$myfile = fopen("dload/codes.txt", "w") or die("Unable to open txt file!");
 	$csvfile = fopen('dload/codes.csv', 'a') or die("Unable to open csv file!");
-	$keys = array();
+	if(file_exists('./oldcodes.txt')) {
+		$keys = file('./oldcodes.txt', FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES);
+	} else {
+		$keys = array();
+	}
 	for($i=0; $i < $_POST['forcodes']; $i++){
 		$randomstring = generateRandomString($_POST['anzzeichen'],$_POST['zeichen']);
 		if(!in_array($randomstring, $keys)){
