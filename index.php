@@ -12,7 +12,7 @@ if(@isset($_POST['start'])):
 	for($i=0; $i < $_POST['forcodes']; $i++){
 		$randomstring = generateRandomString($_POST['anzzeichen'],$_POST['zeichen']);
 		if(!in_array($randomstring, $keys)){
-			$qr_link = 'https://action-world.win/wincode.php?code='.$randomstring;
+			$qr_link = 'https://beerbingo.ch/c.php?c='.$randomstring;
 			array_push($keys, $randomstring);
 			fwrite($myfile, $randomstring.','.$qr_link."\n");
 			fputcsv($csvfile, array($randomstring, $qr_link));
